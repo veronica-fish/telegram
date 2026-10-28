@@ -2,67 +2,179 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Whisky SHOP</title>
-    <!-- Memanggil API Telegram WebApp -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        :root {
+            --bg-color: var(--tg-theme-bg-color, #17212b);
+            --text-color: var(--tg-theme-text-color, #ffffff);
+            --hint-color: var(--tg-theme-hint-color, #7d8b99);
+        }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #17212b; /* Warna background gelap khas Telegram */
-            color: white;
-            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 15px;
             margin: 0;
         }
+        h2 { text-align: center; margin-bottom: 20px; font-size: 20px; }
+        
         .btn {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             width: 100%;
-            padding: 15px;
-            margin-bottom: 15px;
+            padding: 16px;
+            margin-bottom: 12px;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-            text-align: left;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #ffffff;
             cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: transform 0.1s;
         }
-        .btn-green { background-color: #2e7d32; }
-        .btn-blue { background-color: #1565c0; }
-        .btn-yellow { background-color: #f57f17; color: #000; }
+        .btn:active { transform: scale(0.98); }
         
-        .btn span { margin-right: 10px; font-size: 20px; }
+        /* Warna Tombol */
+        .btn-green { background: linear-gradient(135deg, #28a745, #1e7e34); }
+        .btn-blue { background: linear-gradient(135deg, #007bff, #0056b3); }
+        .btn-yellow { background: linear-gradient(135deg, #ffc107, #d39e00); color: #000; }
+        .btn-red { background: linear-gradient(135deg, #dc3545, #a71d2a); }
+        .btn-purple { background: linear-gradient(135deg, #6f42c1, #4b2a8a); }
+        .btn-grey { background: linear-gradient(135deg, #6c757d, #494f54); }
+        
+        .btn span.icon { font-size: 20px; margin-right: 10px; }
+        .btn span.text { flex-grow: 1; text-align: left; }
+        .btn span.price { font-size: 13px; opacity: 0.9; }
+        
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <h2 style="text-align: center; margin-bottom: 30px;">🛍️ KATALOG PRODUK</h2>
+    <!-- MENU UTAMA -->
+    <div id="menu-utama">
+        <h2>🏦 Whisky SHOP</h2>
+        <button class="btn btn-green" onclick="bukaKatalog()">
+            <span class="icon">🛍️</span> <span class="text">Katalog Produk</span>
+        </button>
+        <button class="btn btn-blue" onclick="bukaTopup()">
+            <span class="icon">💰</span> <span class="text">Topup Saldo</span>
+        </button>
+    </div>
 
-    <!-- Tombol Berwarna -->
-    <button class="btn btn-green" onclick="pilihProduk('otp')">
-        <span>⚡</span> 1. OTP Email (WhatsApp)
-    </button>
+    <!-- MENU KATALOG -->
+    <div id="menu-katalog" class="hidden">
+        <h2>🛍️ Katalog Produk</h2>
+        <button class="btn btn-green" onclick="bukaDetail('otp')">
+            <span class="icon">⚡</span> <span class="text">1. OTP Email</span>
+        </button>
+        <button class="btn btn-blue" onclick="bukaDetail('akun')">
+            <span class="icon">📧</span> <span class="text">2. Akun Email</span>
+        </button>
+        <button class="btn btn-yellow" onclick="bukaDetail('nib')">
+            <span class="icon">📄</span> <span class="text">3. NIB Perusahaan</span>
+        </button>
+        <button class="btn btn-purple" onclick="bukaDetail('tw')">
+            <span class="icon">🪪</span> <span class="text">4. ThirdWave SMS</span>
+        </button>
+        <button class="btn btn-grey" onclick="tampilkanMenu('menu-utama')">
+            <span class="icon">↻</span> <span class="text">Kembali</span>
+        </button>
+    </div>
 
-    <button class="btn btn-blue" onclick="pilihProduk('meta')">
-        <span>📱</span> 2. Akun Meta One
-    </button>
+    <!-- DETAIL OTP -->
+    <div id="detail-otp" class="hidden">
+        <h2>⚡ OTP Email</h2>
+        <button class="btn btn-green" onclick="beli('1 OTP Email', 'Rp 100.000')"><span class="text">1 OTP</span> <span class="price">Rp 100.000 | $6.50</span></button>
+        <button class="btn btn-green" onclick="beli('2 OTP Email', 'Rp 200.000')"><span class="text">2 OTP</span> <span class="price">Rp 200.000 | $13.00</span></button>
+        <button class="btn btn-green" onclick="beli('3 OTP Email', 'Rp 280.000')"><span class="text">3 OTP</span> <span class="price">Rp 280.000 | $18.00</span></button>
+        <button class="btn btn-green" onclick="beli('4 OTP Email', 'Rp 360.000')"><span class="text">4 OTP</span> <span class="price">Rp 360.000 | $23.00</span></button>
+        <button class="btn btn-green" onclick="beli('5 OTP Email', 'Rp 440.000')"><span class="text">5 OTP</span> <span class="price">Rp 440.000 | $28.00</span></button>
+        <button class="btn btn-grey" onclick="tampilkanMenu('menu-katalog')"><span class="icon">↻</span> <span class="text">Kembali</span></button>
+    </div>
 
-    <button class="btn btn-yellow" onclick="pilihProduk('nib')">
-        <span>📄</span> 3. NIB Perusahaan
-    </button>
+    <!-- DETAIL AKUN EMAIL -->
+    <div id="detail-akun" class="hidden">
+        <h2>📧 Akun Email</h2>
+        <button class="btn btn-blue" onclick="beli('1 Akun Email', 'Rp 450.000')"><span class="text">1 Email</span> <span class="price">Rp 450.000 | $29.00</span></button>
+        <button class="btn btn-blue" onclick="beli('2 Akun Email', 'Rp 900.000')"><span class="text">2 Email</span> <span class="price">Rp 900.000 | $58.00</span></button>
+        <button class="btn btn-blue" onclick="beli('3 Akun Email', 'Rp 1.300.000')"><span class="text">3 Email</span> <span class="price">Rp 1.300.000 | $84.00</span></button>
+        <button class="btn btn-blue" onclick="beli('4 Akun Email', 'Rp 1.650.000')"><span class="text">4 Email</span> <span class="price">Rp 1.650.000 | $106.00</span></button>
+        <button class="btn btn-blue" onclick="beli('5 Akun Email', 'Rp 1.950.000')"><span class="text">5 Email</span> <span class="price">Rp 1.950.000 | $125.00</span></button>
+        <button class="btn btn-grey" onclick="tampilkanMenu('menu-katalog')"><span class="icon">↻</span> <span class="text">Kembali</span></button>
+    </div>
+
+    <!-- DETAIL NIB -->
+    <div id="detail-nib" class="hidden">
+        <h2>📄 NIB Perusahaan</h2>
+        <button class="btn btn-yellow" onclick="beli('1 NIB', 'Rp 50.000')"><span class="text">1 NIB</span> <span class="price">Rp 50.000 | $3.20</span></button>
+        <button class="btn btn-yellow" onclick="beli('2 NIB', 'Rp 100.000')"><span class="text">2 NIB</span> <span class="price">Rp 100.000 | $6.50</span></button>
+        <button class="btn btn-yellow" onclick="beli('3 NIB', 'Rp 140.000')"><span class="text">3 NIB</span> <span class="price">Rp 140.000 | $9.00</span></button>
+        <button class="btn btn-yellow" onclick="beli('4 NIB', 'Rp 175.000')"><span class="text">4 NIB</span> <span class="price">Rp 175.000 | $11.00</span></button>
+        <button class="btn btn-yellow" onclick="beli('5 NIB', 'Rp 205.000')"><span class="text">5 NIB</span> <span class="price">Rp 205.000 | $13.00</span></button>
+        <button class="btn btn-grey" onclick="tampilkanMenu('menu-katalog')"><span class="icon">↻</span> <span class="text">Kembali</span></button>
+    </div>
+
+    <!-- DETAIL THIRDWAVE -->
+    <div id="detail-tw" class="hidden">
+        <h2>🪪 ThirdWave SMS</h2>
+        <button class="btn btn-purple" onclick="beli('ThirdWave SMS (15k)', 'Rp 150.000')"><span class="text">Limit 15k</span> <span class="price">Rp 150.000 | $9.50</span></button>
+        <button class="btn btn-purple" onclick="beli('ThirdWave SMS (30k)', 'Rp 270.000')"><span class="text">Limit 30k</span> <span class="price">Rp 270.000 | $17.00</span></button>
+        <button class="btn btn-grey" onclick="tampilkanMenu('menu-katalog')"><span class="icon">↻</span> <span class="text">Kembali</span></button>
+    </div>
+
+    <!-- MENU TOPUP -->
+    <div id="menu-topup" class="hidden">
+        <h2>💰 Topup Saldo</h2>
+        <button class="btn btn-green" onclick="topup('qris')">
+            <span class="icon">🇮🇩</span> <span class="text">QRIS (Rupiah)</span>
+        </button>
+        <button class="btn btn-blue" onclick="topup('usdt')">
+            <span class="icon">💎</span> <span class="text">USDT (Crypto)</span>
+        </button>
+        <button class="btn btn-grey" onclick="tampilkanMenu('menu-utama')"><span class="icon">↻</span> <span class="text">Kembali</span></button>
+    </div>
 
     <script>
-        // Menginisialisasi WebApp Telegram
-        const tg = window.Telegram.WebApp;
-        tg.expand(); // Membuat tampilan penuh
+        let tg = window.Telegram.WebApp;
+        tg.expand();
 
-        // Fungsi ketika tombol diklik
-        function pilihProduk(produk) {
-            // Mengirim data kembali ke bot (bot.py)
-            tg.sendData(produk);
-            // Menutup WebApp
+        function tampilkanMenu(menuId) {
+            // Sembunyikan semua menu
+            document.querySelectorAll('div[id^="menu-"], div[id^="detail-"]').forEach(el => el.classList.add('hidden'));
+            // Tampilkan menu yang dipilih
+            document.getElementById(menuId).classList.remove('hidden');
+            tg.HapticFeedback.impactOccurred('light');
+        }
+
+        function bukaKatalog() { tampilkanMenu('menu-katalog'); }
+        function bukaTopup() { tampilkanMenu('menu-topup'); }
+
+        function bukaDetail(kategori) {
+            tampilkanMenu('detail-' + kategori);
+        }
+
+        function beli(namaProduk, harga) {
+            // Kirim data ke bot.py
+            let data = {
+                aksi: "beli",
+                produk: namaProduk,
+                harga: harga
+            };
+            tg.sendData(JSON.stringify(data));
+            tg.close();
+        }
+
+        function topup(metode) {
+            let data = {
+                aksi: "topup",
+                metode: metode
+            };
+            tg.sendData(JSON.stringify(data));
             tg.close();
         }
     </script>
