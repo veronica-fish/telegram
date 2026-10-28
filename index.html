@@ -9,171 +9,137 @@
         :root {
             --bg-color: var(--tg-theme-bg-color, #17212b);
             --text-color: var(--tg-theme-text-color, #ffffff);
-            --hint-color: var(--tg-theme-hint-color, #7d8b99);
         }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            padding: 15px;
-            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: var(--bg-color); color: var(--text-color);
+            padding: 15px; margin: 0;
         }
         h2 { text-align: center; margin-bottom: 20px; font-size: 20px; }
-        
         .btn {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            padding: 16px;
-            margin-bottom: 12px;
-            border: none;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 600;
-            color: #ffffff;
-            cursor: pointer;
+            display: flex; align-items: center; justify-content: space-between;
+            width: 100%; padding: 16px; margin-bottom: 12px; border: none; border-radius: 12px;
+            font-size: 15px; font-weight: 600; color: #ffffff; cursor: pointer;
             box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            transition: transform 0.1s;
         }
-        .btn:active { transform: scale(0.98); }
-        
-        /* Warna Tombol */
         .btn-green { background: linear-gradient(135deg, #28a745, #1e7e34); }
         .btn-blue { background: linear-gradient(135deg, #007bff, #0056b3); }
         .btn-yellow { background: linear-gradient(135deg, #ffc107, #d39e00); color: #000; }
-        .btn-red { background: linear-gradient(135deg, #dc3545, #a71d2a); }
         .btn-purple { background: linear-gradient(135deg, #6f42c1, #4b2a8a); }
         .btn-grey { background: linear-gradient(135deg, #6c757d, #494f54); }
-        
-        .btn span.icon { font-size: 20px; margin-right: 10px; }
-        .btn span.text { flex-grow: 1; text-align: left; }
-        .btn span.price { font-size: 13px; opacity: 0.9; }
-        
         .hidden { display: none; }
+        .desc { font-size: 13px; font-weight: normal; opacity: 0.8; margin-top: 5px; display: block; }
     </style>
 </head>
 <body>
 
-    <!-- MENU UTAMA -->
-    <div id="menu-utama">
-        <h2>🏦 Whisky SHOP</h2>
-        <button class="btn btn-green" onclick="bukaKatalog()">
-            <span class="icon">🛍️</span> <span class="text">Katalog Produk</span>
-        </button>
-        <button class="btn btn-blue" onclick="bukaTopup()">
-            <span class="icon">💰</span> <span class="text">Topup Saldo</span>
-        </button>
-    </div>
-
-    <!-- MENU KATALOG -->
-    <div id="menu-katalog" class="hidden">
-        <h2>🛍️ Katalog Produk</h2>
+    <div id="menu-katalog">
+        <h2 id="lbl_katalog_title">🛍️ Katalog Produk</h2>
+        
         <button class="btn btn-green" onclick="bukaDetail('otp')">
-            <span class="icon">⚡</span> <span class="text">1. OTP Email</span>
+            <div>
+                <span id="lbl_otp_title">⚡ OTP Email</span>
+                <span class="desc" id="lbl_otp_desc">Keterangan...</span>
+            </div>
         </button>
+        
         <button class="btn btn-blue" onclick="bukaDetail('akun')">
-            <span class="icon">📧</span> <span class="text">2. Akun Email</span>
+            <div>
+                <span id="lbl_akun_title">📧 Akun Email</span>
+                <span class="desc" id="lbl_akun_desc">Keterangan...</span>
+            </div>
         </button>
+        
         <button class="btn btn-yellow" onclick="bukaDetail('nib')">
-            <span class="icon">📄</span> <span class="text">3. NIB Perusahaan</span>
+            <div>
+                <span id="lbl_nib_title">📄 NIB Perusahaan</span>
+                <span class="desc" id="lbl_nib_desc">Keterangan...</span>
+            </div>
         </button>
+        
         <button class="btn btn-purple" onclick="bukaDetail('tw')">
-            <span class="icon">🪪</span> <span class="text">4. ThirdWave SMS</span>
-        </button>
-        <button class="btn btn-grey" onclick="tampilkanMenu('menu-utama')">
-            <span class="icon">↻</span> <span class="text">Kembali</span>
+            <div>
+                <span id="lbl_tw_title">🪪 ThirdWave SMS</span>
+                <span class="desc" id="lbl_tw_desc">Keterangan...</span>
+            </div>
         </button>
     </div>
 
     <!-- DETAIL OTP -->
     <div id="detail-otp" class="hidden">
-        <h2>⚡ OTP Email</h2>
-        <button class="btn btn-green" onclick="beli('1 OTP Email', 'Rp 100.000')"><span class="text">1 OTP</span> <span class="price">Rp 100.000 | $6.50</span></button>
-        <button class="btn btn-green" onclick="beli('2 OTP Email', 'Rp 200.000')"><span class="text">2 OTP</span> <span class="price">Rp 200.000 | $13.00</span></button>
-        <button class="btn btn-green" onclick="beli('3 OTP Email', 'Rp 280.000')"><span class="text">3 OTP</span> <span class="price">Rp 280.000 | $18.00</span></button>
-        <button class="btn btn-green" onclick="beli('4 OTP Email', 'Rp 360.000')"><span class="text">4 OTP</span> <span class="price">Rp 360.000 | $23.00</span></button>
-        <button class="btn btn-green" onclick="beli('5 OTP Email', 'Rp 440.000')"><span class="text">5 OTP</span> <span class="price">Rp 440.000 | $28.00</span></button>
-        <button class="btn btn-grey" onclick="tampilkanMenu('menu-katalog')"><span class="icon">↻</span> <span class="text">Kembali</span></button>
-    </div>
-
-    <!-- DETAIL AKUN EMAIL -->
-    <div id="detail-akun" class="hidden">
-        <h2>📧 Akun Email</h2>
-        <button class="btn btn-blue" onclick="beli('1 Akun Email', 'Rp 450.000')"><span class="text">1 Email</span> <span class="price">Rp 450.000 | $29.00</span></button>
-        <button class="btn btn-blue" onclick="beli('2 Akun Email', 'Rp 900.000')"><span class="text">2 Email</span> <span class="price">Rp 900.000 | $58.00</span></button>
-        <button class="btn btn-blue" onclick="beli('3 Akun Email', 'Rp 1.300.000')"><span class="text">3 Email</span> <span class="price">Rp 1.300.000 | $84.00</span></button>
-        <button class="btn btn-blue" onclick="beli('4 Akun Email', 'Rp 1.650.000')"><span class="text">4 Email</span> <span class="price">Rp 1.650.000 | $106.00</span></button>
-        <button class="btn btn-blue" onclick="beli('5 Akun Email', 'Rp 1.950.000')"><span class="text">5 Email</span> <span class="price">Rp 1.950.000 | $125.00</span></button>
-        <button class="btn btn-grey" onclick="tampilkanMenu('menu-katalog')"><span class="icon">↻</span> <span class="text">Kembali</span></button>
-    </div>
-
-    <!-- DETAIL NIB -->
-    <div id="detail-nib" class="hidden">
-        <h2>📄 NIB Perusahaan</h2>
-        <button class="btn btn-yellow" onclick="beli('1 NIB', 'Rp 50.000')"><span class="text">1 NIB</span> <span class="price">Rp 50.000 | $3.20</span></button>
-        <button class="btn btn-yellow" onclick="beli('2 NIB', 'Rp 100.000')"><span class="text">2 NIB</span> <span class="price">Rp 100.000 | $6.50</span></button>
-        <button class="btn btn-yellow" onclick="beli('3 NIB', 'Rp 140.000')"><span class="text">3 NIB</span> <span class="price">Rp 140.000 | $9.00</span></button>
-        <button class="btn btn-yellow" onclick="beli('4 NIB', 'Rp 175.000')"><span class="text">4 NIB</span> <span class="price">Rp 175.000 | $11.00</span></button>
-        <button class="btn btn-yellow" onclick="beli('5 NIB', 'Rp 205.000')"><span class="text">5 NIB</span> <span class="price">Rp 205.000 | $13.00</span></button>
-        <button class="btn btn-grey" onclick="tampilkanMenu('menu-katalog')"><span class="icon">↻</span> <span class="text">Kembali</span></button>
-    </div>
-
-    <!-- DETAIL THIRDWAVE -->
-    <div id="detail-tw" class="hidden">
-        <h2>🪪 ThirdWave SMS</h2>
-        <button class="btn btn-purple" onclick="beli('ThirdWave SMS (15k)', 'Rp 150.000')"><span class="text">Limit 15k</span> <span class="price">Rp 150.000 | $9.50</span></button>
-        <button class="btn btn-purple" onclick="beli('ThirdWave SMS (30k)', 'Rp 270.000')"><span class="text">Limit 30k</span> <span class="price">Rp 270.000 | $17.00</span></button>
-        <button class="btn btn-grey" onclick="tampilkanMenu('menu-katalog')"><span class="icon">↻</span> <span class="text">Kembali</span></button>
-    </div>
-
-    <!-- MENU TOPUP -->
-    <div id="menu-topup" class="hidden">
-        <h2>💰 Topup Saldo</h2>
-        <button class="btn btn-green" onclick="topup('qris')">
-            <span class="icon">🇮🇩</span> <span class="text">QRIS (Rupiah)</span>
-        </button>
-        <button class="btn btn-blue" onclick="topup('usdt')">
-            <span class="icon">💎</span> <span class="text">USDT (Crypto)</span>
-        </button>
-        <button class="btn btn-grey" onclick="tampilkanMenu('menu-utama')"><span class="icon">↻</span> <span class="text">Kembali</span></button>
+        <h2 id="lbl_detail_otp">⚡ OTP Email</h2>
+        <button class="btn btn-green" onclick="beli('1 OTP Email', 'Rp 100.000')"><span>1 OTP</span> <span>Rp 100.000 | $6.50</span></button>
+        <button class="btn btn-green" onclick="beli('2 OTP Email', 'Rp 200.000')"><span>2 OTP</span> <span>Rp 200.000 | $13.00</span></button>
+        <button class="btn btn-green" onclick="beli('3 OTP Email', 'Rp 280.000')"><span>3 OTP</span> <span>Rp 280.000 | $18.00</span></button>
+        <button class="btn btn-green" onclick="beli('4 OTP Email', 'Rp 360.000')"><span>4 OTP</span> <span>Rp 360.000 | $23.00</span></button>
+        <button class="btn btn-green" onclick="beli('5 OTP Email', 'Rp 440.000')"><span>5 OTP</span> <span>Rp 440.000 | $28.00</span></button>
+        <button class="btn btn-grey" onclick="kembaliKeKatalog()"><span id="lbl_btn_back">↻ Kembali</span></button>
     </div>
 
     <script>
-        let tg = window.Telegram.WebApp;
+        const tg = window.Telegram.WebApp;
         tg.expand();
 
-        function tampilkanMenu(menuId) {
-            // Sembunyikan semua menu
-            document.querySelectorAll('div[id^="menu-"], div[id^="detail-"]').forEach(el => el.classList.add('hidden'));
-            // Tampilkan menu yang dipilih
-            document.getElementById(menuId).classList.remove('hidden');
-            tg.HapticFeedback.impactOccurred('light');
+        // Membaca parameter bahasa dari URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const lang = urlParams.get('lang') || 'id'; 
+
+        const translations = {
+            'id': {
+                katalog_title: "🛍️ Katalog Produk",
+                otp_title: "⚡ OTP Email", otp_desc: "Masa Aktif mailbox: 2 Hari. Opsi Kouta: x1-x5.",
+                akun_title: "📧 Akun Email", akun_desc: "Full mailbox access. Kredensial instan.",
+                nib_title: "📄 NIB Perusahaan", nib_desc: "Legalitas bisnis PT resmi Indonesia.",
+                tw_title: "🪪 ThirdWave SMS", tw_desc: "Akun Teams. Limit 15k & 30k.",
+                btn_back: "↻ Kembali"
+            },
+            'en': {
+                katalog_title: "🛍️ Product Catalog",
+                otp_title: "⚡ OTP Email", otp_desc: "Mailbox active: 2 Days. Quota options: x1-x5.",
+                akun_title: "📧 Email Account", akun_desc: "Full mailbox access. Instant credentials.",
+                nib_title: "📄 Company NIB", nib_desc: "Official Indonesian PT business legality.",
+                tw_title: "🪪 ThirdWave SMS", tw_desc: "Teams account. Limit 15k & 30k.",
+                btn_back: "↻ Back"
+            },
+            'zh': {
+                katalog_title: "🛍️ 产品目录",
+                otp_title: "⚡ OTP 邮箱", otp_desc: "邮箱有效期: 2天。配额选项: x1-x5。",
+                akun_title: "📧 邮箱账户", akun_desc: "完整邮箱访问权限。即时凭据。",
+                nib_title: "📄 公司 NIB", nib_desc: "经过验证的印尼PT公司合法数据。",
+                tw_title: "🪪 ThirdWave SMS", tw_desc: "Teams账户。提供15k和30k限额。",
+                btn_back: "↻ 返回"
+            }
+        };
+
+        function applyLanguage() {
+            const t = translations[lang] || translations['id'];
+            document.getElementById('lbl_katalog_title').innerText = t.katalog_title;
+            document.getElementById('lbl_otp_title').innerText = t.otp_title;
+            document.getElementById('lbl_otp_desc').innerText = t.otp_desc;
+            document.getElementById('lbl_akun_title').innerText = t.akun_title;
+            document.getElementById('lbl_akun_desc').innerText = t.akun_desc;
+            document.getElementById('lbl_nib_title').innerText = t.nib_title;
+            document.getElementById('lbl_nib_desc').innerText = t.nib_desc;
+            document.getElementById('lbl_tw_title').innerText = t.tw_title;
+            document.getElementById('lbl_tw_desc').innerText = t.tw_desc;
+            
+            document.getElementById('lbl_btn_back').innerText = t.btn_back;
         }
 
-        function bukaKatalog() { tampilkanMenu('menu-katalog'); }
-        function bukaTopup() { tampilkanMenu('menu-topup'); }
+        applyLanguage();
 
         function bukaDetail(kategori) {
-            tampilkanMenu('detail-' + kategori);
+            document.getElementById('menu-katalog').classList.add('hidden');
+            document.getElementById('detail-' + kategori).classList.remove('hidden');
+        }
+
+        function kembaliKeKatalog() {
+            document.querySelectorAll('div[id^="detail-"]').forEach(el => el.classList.add('hidden'));
+            document.getElementById('menu-katalog').classList.remove('hidden');
         }
 
         function beli(namaProduk, harga) {
-            // Kirim data ke bot.py
-            let data = {
-                aksi: "beli",
-                produk: namaProduk,
-                harga: harga
-            };
-            tg.sendData(JSON.stringify(data));
-            tg.close();
-        }
-
-        function topup(metode) {
-            let data = {
-                aksi: "topup",
-                metode: metode
-            };
+            let data = { aksi: "beli", produk: namaProduk, harga: harga };
             tg.sendData(JSON.stringify(data));
             tg.close();
         }
