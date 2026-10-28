@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whisky SHOP</title>
+    <!-- Memanggil API Telegram WebApp -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #17212b; /* Warna background gelap khas Telegram */
+            color: white;
+            padding: 20px;
+            margin: 0;
+        }
+        .btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            text-align: left;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .btn-green { background-color: #2e7d32; }
+        .btn-blue { background-color: #1565c0; }
+        .btn-yellow { background-color: #f57f17; color: #000; }
+        
+        .btn span { margin-right: 10px; font-size: 20px; }
+    </style>
+</head>
+<body>
+
+    <h2 style="text-align: center; margin-bottom: 30px;">🛍️ KATALOG PRODUK</h2>
+
+    <!-- Tombol Berwarna -->
+    <button class="btn btn-green" onclick="pilihProduk('otp')">
+        <span>⚡</span> 1. OTP Email (WhatsApp)
+    </button>
+
+    <button class="btn btn-blue" onclick="pilihProduk('meta')">
+        <span>📱</span> 2. Akun Meta One
+    </button>
+
+    <button class="btn btn-yellow" onclick="pilihProduk('nib')">
+        <span>📄</span> 3. NIB Perusahaan
+    </button>
+
+    <script>
+        // Menginisialisasi WebApp Telegram
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Membuat tampilan penuh
+
+        // Fungsi ketika tombol diklik
+        function pilihProduk(produk) {
+            // Mengirim data kembali ke bot (bot.py)
+            tg.sendData(produk);
+            // Menutup WebApp
+            tg.close();
+        }
+    </script>
+</body>
+</html>
